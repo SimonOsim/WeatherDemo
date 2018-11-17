@@ -1,0 +1,5 @@
+android{
+	defaultConfig {
+			buildConfigField("String","OPEN_WEATHER_MAP_KEY","\"<FILL IN KEY HERE>\"")
+	}
+}
