@@ -20,8 +20,8 @@ import kotlinx.android.synthetic.main.weather_list.*
  * has different presentations for handset and tablet-size devices. On
  * handsets, the activity presents a list of items, which when touched,
  * lead to a [WeatherDetailActivity] representing
- * item details. On tablets, the activity presents the list of items and
- * item details side-by-side using two vertical panes.
+ * items details. On tablets, the activity presents the list of items and
+ * items details side-by-side using two vertical panes.
  */
 class WeatherListActivity : AppCompatActivity() {
 
@@ -37,11 +37,6 @@ class WeatherListActivity : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
         toolbar.title = title
-
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
 
         if (weather_detail_container != null) {
             // The detail container view will be present only in the

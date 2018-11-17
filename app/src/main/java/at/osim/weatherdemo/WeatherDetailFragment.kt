@@ -25,8 +25,8 @@ class WeatherDetailFragment : Fragment() {
                 // Load the dummy content specified by the fragment
                 // arguments. In a real-world scenario, use a Loader
                 // to load content from a content provider.
-                //item = DummyContent.ITEM_MAP[it.getString(ARG_WEATHER_DATE)]
-                //activity?.toolbar_layout?.title = item?.content
+                //items = DummyContent.ITEM_MAP[it.getString(ARG_WEATHER_DATE)]
+                //activity?.toolbar_layout?.title = items?.content
             }
         }
     }
@@ -43,7 +43,7 @@ class WeatherDetailFragment : Fragment() {
 
     companion object {
         /**
-         * The fragment argument representing the item ID that this fragment
+         * The fragment argument representing the items ID that this fragment
          * represents.
          */
         const val ARG_WEATHER_DATE = "weather_date"

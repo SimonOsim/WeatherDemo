@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.activity_weather_detail.*
 /**
  * An activity representing a single Weather detail screen. This
  * activity is only used on narrow width devices. On tablet-size devices,
- * item details are presented side-by-side with a list of items
+ * items details are presented side-by-side with a list of items
  * in a [WeatherListActivity].
  */
 class WeatherDetailActivity : AppCompatActivity() {

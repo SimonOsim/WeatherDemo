@@ -1,6 +1,6 @@
 package at.osim.weather
 
-class ListEvent<T>(val type: Type, val pos: Int, val item: T)  {
+class ListEvent<T>(val type: Type, val pos: Int, val items: List<T>) {
 
 
     /**
