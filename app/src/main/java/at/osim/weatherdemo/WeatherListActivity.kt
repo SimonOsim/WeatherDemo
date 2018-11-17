@@ -9,8 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import at.osim.weather.model.Weather
 
-import at.osim.weatherdemo.dummy.DummyContent
 import kotlinx.android.synthetic.main.activity_weather_list.*
 import kotlinx.android.synthetic.main.weather_list_content.view.*
 import kotlinx.android.synthetic.main.weather_list.*
@@ -55,12 +55,12 @@ class WeatherListActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
-        recyclerView.adapter = SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, twoPane)
+        recyclerView.adapter = SimpleItemRecyclerViewAdapter(this, emptyList(), twoPane)
     }
 
     class SimpleItemRecyclerViewAdapter(
         private val parentActivity: WeatherListActivity,
-        private val values: List<DummyContent.DummyItem>,
+        private val values: List<Weather>,
         private val twoPane: Boolean
     ) :
         RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>() {
@@ -69,11 +69,11 @@ class WeatherListActivity : AppCompatActivity() {
 
         init {
             onClickListener = View.OnClickListener { v ->
-                val item = v.tag as DummyContent.DummyItem
+                val item = v.tag as Weather
                 if (twoPane) {
                     val fragment = WeatherDetailFragment().apply {
                         arguments = Bundle().apply {
-                            putString(WeatherDetailFragment.ARG_ITEM_ID, item.id)
+                            putSerializable(WeatherDetailFragment.ARG_WEATHER_DATE, item.date)
                         }
                     }
                     parentActivity.supportFragmentManager
@@ -82,7 +82,7 @@ class WeatherListActivity : AppCompatActivity() {
                         .commit()
                 } else {
                     val intent = Intent(v.context, WeatherDetailActivity::class.java).apply {
-                        putExtra(WeatherDetailFragment.ARG_ITEM_ID, item.id)
+                        putExtra(WeatherDetailFragment.ARG_WEATHER_DATE, item.date)
                     }
                     v.context.startActivity(intent)
                 }
@@ -97,8 +97,8 @@ class WeatherListActivity : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val item = values[position]
-            holder.idView.text = item.id
-            holder.contentView.text = item.content
+            holder.idView.text = "${item.temp}°C"
+            holder.contentView.text = item.condition.name
 
             with(holder.itemView) {
                 tag = item

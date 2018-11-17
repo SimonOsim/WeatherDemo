@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import at.osim.weatherdemo.dummy.DummyContent
 import kotlinx.android.synthetic.main.activity_weather_detail.*
 import kotlinx.android.synthetic.main.weather_detail.view.*
 
@@ -17,21 +16,17 @@ import kotlinx.android.synthetic.main.weather_detail.view.*
  */
 class WeatherDetailFragment : Fragment() {
 
-    /**
-     * The dummy content this fragment is presenting.
-     */
-    private var item: DummyContent.DummyItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            if (it.containsKey(ARG_ITEM_ID)) {
+            if (it.containsKey(ARG_WEATHER_DATE)) {
                 // Load the dummy content specified by the fragment
                 // arguments. In a real-world scenario, use a Loader
                 // to load content from a content provider.
-                item = DummyContent.ITEM_MAP[it.getString(ARG_ITEM_ID)]
-                activity?.toolbar_layout?.title = item?.content
+                //item = DummyContent.ITEM_MAP[it.getString(ARG_WEATHER_DATE)]
+                //activity?.toolbar_layout?.title = item?.content
             }
         }
     }
@@ -42,10 +37,6 @@ class WeatherDetailFragment : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.weather_detail, container, false)
 
-        // Show the dummy content as text in a TextView.
-        item?.let {
-            rootView.weather_detail.text = it.details
-        }
 
         return rootView
     }
@@ -55,6 +46,6 @@ class WeatherDetailFragment : Fragment() {
          * The fragment argument representing the item ID that this fragment
          * represents.
          */
-        const val ARG_ITEM_ID = "item_id"
+        const val ARG_WEATHER_DATE = "weather_date"
     }
 }

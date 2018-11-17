@@ -43,8 +43,8 @@ class WeatherDetailActivity : AppCompatActivity() {
             val fragment = WeatherDetailFragment().apply {
                 arguments = Bundle().apply {
                     putString(
-                        WeatherDetailFragment.ARG_ITEM_ID,
-                        intent.getStringExtra(WeatherDetailFragment.ARG_ITEM_ID)
+                        WeatherDetailFragment.ARG_WEATHER_DATE,
+                        intent.getStringExtra(WeatherDetailFragment.ARG_WEATHER_DATE)
                     )
                 }
             }
