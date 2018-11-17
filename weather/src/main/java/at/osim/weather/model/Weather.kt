@@ -19,4 +19,10 @@ class Weather {
     var windDeg = 0
 
     var date = Date()
+
+    enum class Units {
+        KELVIN,
+        FAHRENHEIT,
+        CELSIUS
+    }
 }

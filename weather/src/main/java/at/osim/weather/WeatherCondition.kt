@@ -7,7 +7,8 @@ enum class WeatherCondition {
     SNOW,
     CLEAR,
     FOG,
-    CLOUDS
+    CLOUDS,
+    UNKNOWN
 }
 
 enum class Intensity {

@@ -8,7 +8,7 @@ class LocationDao {
     private val currentLocation = BehaviorSubject.create<Location>()
 
     fun allLocations(): Observable<Location> {
-        return Observable.just(Location(2643741, "City of London", "UK"))
+        return Observable.just(Location.LONDON)
     }
 
     fun currentLocation(): Observable<Location> {
