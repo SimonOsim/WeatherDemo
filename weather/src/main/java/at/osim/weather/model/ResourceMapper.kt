@@ -5,7 +5,7 @@ import java.util.*
 
 interface ResourceMapper {
 
-    fun conditionIcon(condition: WeatherCondition): String
+    fun conditionIcon(condition: WeatherCondition): Int
     fun condition(condition: WeatherCondition): String
     fun date(date: Date): String
 }

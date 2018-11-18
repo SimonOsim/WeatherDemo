@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">WeatherDemo</string>
     <string name="title_weather_detail">Weather Detail</string>
+    <string name="thunderstorm">Thunderstorm</string>
+    <string name="not_available">Not available</string>
+    <string name="clouds">Clouds</string>
+    <string name="fog">Fog</string>
+    <string name="clear">Clear</string>
+    <string name="snow">Snow</string>
+    <string name="rain">Rain</string>
+    <string name="drizzle">Drizzle</string>
 </resources>
