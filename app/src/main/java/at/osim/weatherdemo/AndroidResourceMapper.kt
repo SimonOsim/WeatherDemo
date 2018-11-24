@@ -12,7 +12,7 @@ class AndroidResourceMapper(private val context: Context, private val theme: Res
 
     private val dateFormat: DateFormat = SimpleDateFormat.getDateInstance()
 
-    
+
     override fun conditionIcon(condition: WeatherCondition): Int {
         return when (condition) {
             WeatherCondition.THUNDERSTORM -> R.drawable.ic_wi_thunderstorm

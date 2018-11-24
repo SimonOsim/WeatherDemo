@@ -1,18 +1,15 @@
 package at.osim.weatherdemo
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
-import android.support.design.widget.Snackbar
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
-import at.osim.weather.model.Weather
-
+import at.osim.weather.model.Location
+import at.osim.weather.model.LocationDao
+import at.osim.weather.model.WeatherModel
+import at.osim.weather.model.network.mock.MockWeatherApiFactory
+import at.osim.weather.mvvm.WeatherListViewModel
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_weather_list.*
-import kotlinx.android.synthetic.main.weather_list_content.view.*
 import kotlinx.android.synthetic.main.weather_list.*
 
 /**
@@ -31,7 +28,18 @@ class WeatherListActivity : AppCompatActivity() {
      */
     private var twoPane: Boolean = false
 
+    private lateinit var weatherAdapter: WeatherRecyclerViewAdapter
+    private lateinit var model: WeatherListViewModel
+
+    private lateinit var subscription:CompositeDisposable
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        model = WeatherListViewModel(
+            WeatherModel(LocationDao(), MockWeatherApiFactory().getWeatherApi()).apply { setLocation(Location.LONDON) },
+            AndroidResourceMapper(this, theme)
+        )
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weather_list)
 
@@ -50,62 +58,21 @@ class WeatherListActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
-        recyclerView.adapter = SimpleItemRecyclerViewAdapter(this, emptyList(), twoPane)
+        weatherAdapter = WeatherRecyclerViewAdapter(this)
+        recyclerView.adapter = weatherAdapter
     }
 
-    class SimpleItemRecyclerViewAdapter(
-        private val parentActivity: WeatherListActivity,
-        private val values: List<Weather>,
-        private val twoPane: Boolean
-    ) :
-        RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>() {
+    override fun onStart() {
+        super.onStart()
+        subscription = CompositeDisposable()
+        subscription.add(
+        model.weather().subscribe {
+            weatherAdapter.updateData(it)
+        })
+    }
 
-        private val onClickListener: View.OnClickListener
-
-        init {
-            onClickListener = View.OnClickListener { v ->
-                val item = v.tag as Weather
-                if (twoPane) {
-                    val fragment = WeatherDetailFragment().apply {
-                        arguments = Bundle().apply {
-                            putSerializable(WeatherDetailFragment.ARG_WEATHER_DATE, item.date)
-                        }
-                    }
-                    parentActivity.supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.weather_detail_container, fragment)
-                        .commit()
-                } else {
-                    val intent = Intent(v.context, WeatherDetailActivity::class.java).apply {
-                        putExtra(WeatherDetailFragment.ARG_WEATHER_DATE, item.date)
-                    }
-                    v.context.startActivity(intent)
-                }
-            }
-        }
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.weather_list_content, parent, false)
-            return ViewHolder(view)
-        }
-
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val item = values[position]
-            holder.idView.text = "${item.temp}°C"
-            holder.contentView.text = item.condition.name
-
-            with(holder.itemView) {
-                tag = item
-                setOnClickListener(onClickListener)
-            }
-        }
-
-        override fun getItemCount() = values.size
-
-        inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-            val idView: TextView = view.id_text
-            val contentView: TextView = view.content
-        }
+    override fun onStop() {
+        subscription.dispose()
+        super.onStop()
     }
 }

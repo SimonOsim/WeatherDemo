@@ -1,17 +1,17 @@
 package at.osim.weather.mvvm
 
 import at.osim.weather.ListEvent
+import at.osim.weather.model.IWeatherModel
 import at.osim.weather.model.Location
 import at.osim.weather.model.ResourceMapper
-import at.osim.weather.model.WeatherModel
 import io.reactivex.Observable
 import java.util.*
 
-class WeatherListViewModel(private val model: WeatherModel, private val resources: ResourceMapper) {
+class WeatherListViewModel(private val model: IWeatherModel, private val resources: ResourceMapper) {
 
     fun weather(): Observable<ListEvent<WeatherViewData>> {
-        return model.weatherForecast().map {
-            val items = it.items.map { weather ->
+        return model.weatherForecast().map { event ->
+            val items = event.items.map { weather ->
                 WeatherViewData(
                     resources.condition(weather.condition),
                     resources.conditionIcon(weather.condition),
@@ -21,7 +21,7 @@ class WeatherListViewModel(private val model: WeatherModel, private val resource
                 )
             }
 
-            ListEvent(it.type, it.pos, items)
+            ListEvent(event.type, event.pos, items)
         }
     }
 
